@@ -1,6 +1,6 @@
 {
   "name": "easy-task-scheduler",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "async task scheduler",
   "main": "index.js",
   "scripts": {

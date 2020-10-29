@@ -4,22 +4,27 @@ module.exports = class {
         this.taskLength = 0;
         this.scanInterval = 1000;
     }
-    
-    async run(taskList) {
-        for (let task of taskList) {
-            this.increaseTask();
-            while(true) {
-                if (this.isFullLoad()) {
-                    await this.sleep(this.scanInterval);
-                }
-                else {
-                    break;
-                }
+
+    async finsh() {
+        while (true) {
+            if (this.getLength() <= 0) {
+                return;
             }
-            task().then(() => {
-                this.decreaseTask();
-            });
+            await this.sleep(200);
         }
+    }
+
+    async push(promiseTask) {
+        this.increaseTask();
+        while (true) {
+            if (!this.isFullLoad()) {
+                break;
+            }
+            await this.sleep(this.scanInterval);
+        }
+        promiseTask().then(() => {
+            this.decreaseTask();
+        });
     }
 
     setMaxTaskNum(num) {
