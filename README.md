@@ -16,7 +16,7 @@ const sleep = (time) => {
 
 const taskScheduler = new TaskScheduler(); // New instance
 
-// Define your async task
+// Define your async task. Make sure to return a promise
 const task = (id) => {
     return async () => {
         print(`Length of task is ${taskScheduler.getLength()}`);
@@ -27,13 +27,16 @@ const task = (id) => {
 }
 
 const main = async () => {
+    const total = 20;
     taskScheduler.setMaxTaskNum(MAX_TASK); // Set max num allowed to run at the same time
+    taskScheduler.enableETA(total); // Set total to enable ETA calculation
+    // taskScheduler.disableShowETA(); // Disable show ETA
     
-    for (let i=0; i<=20; ++i) {
+    for (let i=0; i<=total; ++i) {
         await taskScheduler.push(task(i)); // Push task to scheduler, it will control the task length to a specified threshold
     }
 
-    await taskScheduler.finsh(); // Ensure that all async tasks are completed
+    await taskScheduler.finish(); // Ensure that all async tasks are completed
 };
 
 main().then(_ => {
